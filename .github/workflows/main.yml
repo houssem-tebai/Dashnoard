@@ -34,5 +34,5 @@ jobs:
         registry-login-server: index.docker.io
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        name: myDashbord
+        name: dashbord
         location: 'East US 2'
