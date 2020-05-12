@@ -15,7 +15,8 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: Login to DockerHub Registry
+    - name: 'Login to DockerHub Registry'
+    - uses: actions/checkout@v1
         run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
     
     - run: |
