@@ -1,6 +1,6 @@
 on: [push]
 
-name: Linux_Container_Node_Workflow
+name: azure app service deployment
 
 jobs:
   build-and-deploy:
