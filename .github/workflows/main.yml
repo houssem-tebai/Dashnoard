@@ -16,10 +16,8 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - name: 'Login to DockerHub Registry'
-    - uses: actions/checkout@v1
-      run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
-    
     - run: |
+        echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
         docker build . -t houssemtebai/dashboard:${{ github.sha }}
         docker push houssemtebai/dashboard:${{ github.sha }}
     - name: 'Deploy to Azure Container Instances'
@@ -31,5 +29,5 @@ jobs:
         registry-login-server: index.docker.io
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        name: dashboard
+        name: myDashbord
         location: 'East US 2'
