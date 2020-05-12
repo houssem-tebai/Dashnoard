@@ -22,19 +22,16 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
+        echo 'building image and pushing it to docker hub'
         echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
         docker build . -t houssemtebai/dashboard:${{ github.sha }}
         docker push houssemtebai/dashboard:${{ github.sha }}
-    - name: 'Deploy to Azure Container Instances'
-    #error your subscription id is not subscribed the namespace 'Microsoft.ContainerInstance'
-    #i had to manually added this resource to my accout to be able to use it
-      uses: 'azure/aci-deploy@v1'
+    
+    - uses: azure/webapps-container-deploy@v1
       with:
-        resource-group: ${{ secrets.RESOURCE_GROUP }}
-        dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-        image: houssemtebai/dashboard:${{ github.sha }}
-        registry-login-server: index.docker.io
-        registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        name: dashbord
-        location: 'East US 2'
+        app-name: 'myDashboard'
+        images: 'houssemtebai/dashboard:${{ github.sha }}'
+    
+    - name: Azure logout
+      run: |
+        az logout
