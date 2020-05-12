@@ -22,14 +22,14 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     
     - run: |
-        docker build . -t ${{ secrets.REGISTRY_USERNAME }}/dashboard:${{ github.sha }}
-        docker push ${{ secrets.REGISTRY_USERNAME }}/dashboard:${{ github.sha }}
+        docker build . -t houssemtebai/dashboard:${{ github.sha }}
+        docker push houssemtebai/dashboard:${{ github.sha }}
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: ${{ secrets.RESOURCE_GROUP }}
         dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-        image: ${{ secrets.REGISTRY_USERNAME }}/dashboard:${{ github.sha }}
+        image: houssemtebai/dashboard:${{ github.sha }}
         registry-login-server: index.docker.io
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
